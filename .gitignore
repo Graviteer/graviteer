@@ -1,0 +1,14 @@
+# Would like to keep /Logs/ untracked to remove, but since 2020 Unity will keep /Logs/ contents opened and unable to remove
+/Logs/
+/Temp/
+/Library/
+# Added in Unity 2020, shall be ignored according to Aras
+# https://forum.unity.com/threads/whats-the-usersettings-directory.754436/#post-5029937
+/UserSettings/
+
+# Unity Generated Solution files
+/*.sln
+/*.csproj
+
+# Visual Studio DB
+/.vs/
