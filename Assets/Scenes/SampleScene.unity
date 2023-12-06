@@ -389,7 +389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10000ac04fc67e345b858ee47eae3aa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FollowSpeed: 2
+  FollowSpeed: 4
   target: {fileID: 849629939}
 --- !u!1 &849629936
 GameObject:
