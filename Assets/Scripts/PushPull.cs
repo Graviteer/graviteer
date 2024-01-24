@@ -36,6 +36,11 @@ public class PushPull : MonoBehaviour
 
     void moveObject()
     {
+        if (lastAffectedObject != null)
+        {
+            lastAffectedObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+        }
+
         Vector3 cursorPos = mainCamera.ScreenToWorldPoint(Input.mousePosition + (Vector3.forward * 10));
         Vector3 raycastDirection = Vector3.forward * 10;
         
