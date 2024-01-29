@@ -13,4 +13,4 @@
 # Visual Studio DB
 /.vs/
 
-/*.cache
+/obj/Debug/
