@@ -978,6 +978,7 @@ GameObject:
   - component: {fileID: 870782090}
   - component: {fileID: 870782089}
   - component: {fileID: 870782088}
+  - component: {fileID: 870782091}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: Untagged
@@ -1049,7 +1050,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 683465217}
+      - m_Target: {fileID: 870782091}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
         m_MethodName: PlayGame
         m_Mode: 1
@@ -1099,6 +1100,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 870782086}
   m_CullTransparentMesh: 1
+--- !u!114 &870782091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 870782086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c2f59b23ffc0bb4cad1db375c2145eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transition: {fileID: 2076780073}
+  transitionTime: 1
 --- !u!1 &1054294368
 GameObject:
   m_ObjectHideFlags: 0
@@ -2758,6 +2773,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2071994293}
   m_CullTransparentMesh: 1
+--- !u!95 &2076780073 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5997144860612237950, guid: 70ff1fe147d909d4e9fe43f53f51d37b, type: 3}
+  m_PrefabInstance: {fileID: 548565392}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

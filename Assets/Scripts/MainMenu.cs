@@ -8,13 +8,7 @@ public class MainMenu : MonoBehaviour
     public Animator transition;
 
     public float transitionTime = 1f;
-    void Update()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            PlayGame();
-        }
-    }
+   
     public void PlayGame()
     {
         // Load the next scene in the build order
