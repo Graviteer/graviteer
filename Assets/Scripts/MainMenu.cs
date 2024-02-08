@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] private GameObject _pauseMenu;
-    [SerializeField] private GameObject _pausebutton;
 
     public void PlayGame()
     {
@@ -25,11 +23,11 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
-    public void PauseButton()
-    {
+    public void freezeGameTime()
+    {   
         Time.timeScale = 0f;
     }
-    public void ResumeButton()
+    public void resumeGameTime()
     {
         Time.timeScale = 1.0f;
     }
