@@ -6,9 +6,17 @@ public class PlayerMovement : MonoBehaviour
 {
     public CharacterController2D controller;
     public float runSpeed = 40f;
+
     float horizontalMove = 0f;
     bool jump = false;
-    
+
+    BoxCollider2D playerCollider;
+
+    void Start()
+    {
+        playerCollider = GetComponent<BoxCollider2D>();
+    }
+
     // Update is called once per frame
     void Update()
     {
