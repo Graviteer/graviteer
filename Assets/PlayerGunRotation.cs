@@ -7,6 +7,8 @@ public class ShootIt : MonoBehaviour
 
     private Camera mainCam;
     private Vector3 mousePos;
+
+    bool facingRight = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +25,20 @@ public class ShootIt : MonoBehaviour
         float rotZ = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0, 0, rotZ);
 
-        
- 
+        if(mousePos.x<transform.position.x && facingRight)
+        {
+            flip();
+        }
+        else if (mousePos.x > transform.position.x && !facingRight)
+        {
+            flip();
+        }
+
+    }
+
+    void flip()
+    {
+        facingRight = !facingRight;
+        transform.Rotate(0f, 180f, 0f);
     }
 }
