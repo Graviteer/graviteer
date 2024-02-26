@@ -97,7 +97,19 @@ public class CharacterController2D : MonoBehaviour
 				// ... flip the player.
 				Flip();
 			}
-		}
+
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            if (mousePos.x < transform.position.x && m_FacingRight)
+            {
+                Flip();
+            }
+            else if (mousePos.x > transform.position.x && !m_FacingRight)
+            {
+                Flip();
+            }
+
+        }
 		// If the player should jump...
 		if (m_Grounded && jump)
 		{
