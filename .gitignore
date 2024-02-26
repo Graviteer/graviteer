@@ -12,3 +12,5 @@
 
 # Visual Studio DB
 /.vs/
+
+/*.cache
