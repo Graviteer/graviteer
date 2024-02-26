@@ -962,10 +962,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ec9b8a73a068b948bb221adcb27420c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 1000
+  m_JumpForce: 10
+  jumpTime: 0.2
   m_CrouchSpeed: 0.45
   m_MovementSmoothing: 0.05
   m_AirControl: 0
+  baseGravityScale: 4
+  fallSpeedMultiplier: 3
   m_WhatIsGround:
     serializedVersion: 2
     m_Bits: 55
