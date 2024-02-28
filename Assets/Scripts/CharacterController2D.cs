@@ -2,39 +2,51 @@ using UnityEngine;
 
 public class CharacterController2D : MonoBehaviour
 {
-	[SerializeField] private float m_JumpForce = 400f;							// Amount of force added when the player jumps.
+	[SerializeField] private float m_JumpForce = 400f;                          // Amount of force added when the player jumps.
+	[SerializeField] private float jumpTime = 1.0f;
 	[Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;			// Amount of maxSpeed applied to crouching movement. 1 = 100%
 	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;	// How much to smooth out the movement
-	[SerializeField] private bool m_AirControl = false;							// Whether or not a player can steer while jumping;
+	[SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
+	[SerializeField] private float baseGravityScale = 3.0f;
+	[SerializeField] private float fallSpeedMultiplier = 7.0f / 3.0f;
 	[SerializeField] private LayerMask m_WhatIsGround;							// A mask determining what is ground to the character
 	[SerializeField] private Collider2D m_CrouchDisableCollider;                // A collider that will be disabled when crouching
 
-    public Transform m_GroundCheck;                         // A position marking where to check if the player is grounded.
-    public Transform m_CeilingCheck;							// A position marking where to check for ceilings
-    public float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
+    public MovementCheck m_GroundCheck;                         // A position marking where to check if the player is grounded.
+    public MovementCheck m_CeilingCheck;							// A position marking where to check for ceilings
 	private bool m_Grounded;            // Whether or not the player is grounded.
-    public float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
+	private bool isJumping;
 	private Rigidbody2D m_Rigidbody2D;
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
-	private Vector3 velocity = Vector3.zero;
+    private Vector3 velocity = Vector3.zero;
+	private float currentJumpTime;
 
-	private void Awake()
+    private void Awake()
 	{
 		m_Rigidbody2D = GetComponent<Rigidbody2D>();
 	}
 
+    private void Update()
+    {
+		if (m_Rigidbody2D.velocity.y < 0)
+		{
+			m_Rigidbody2D.gravityScale = baseGravityScale * fallSpeedMultiplier;
+		}
+		else
+		{
+			m_Rigidbody2D.gravityScale = baseGravityScale;
+		}
+    }
 
-	private void FixedUpdate()
+
+    private void FixedUpdate()
 	{
 		m_Grounded = false;
 
-		// The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
-		// This can be done using layers instead but Sample Assets will not overwrite your project settings.
-		Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
-		for (int i = 0; i < colliders.Length; i++)
+		// The player is grounded if its collider is colliding with the right layer
+		if (m_GroundCheck.isColliding)
 		{
-			if (colliders[i].gameObject != gameObject)
-				m_Grounded = true;
+			m_Grounded = true;
 		}
 	}
 
@@ -45,7 +57,7 @@ public class CharacterController2D : MonoBehaviour
 		if (!crouch)
 		{
 			// If the character has a ceiling preventing them from standing up, keep them crouching
-			if (Physics2D.OverlapCircle(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround))
+			if (m_CeilingCheck.isColliding)
 			{
 				crouch = true;
 			}
@@ -89,13 +101,34 @@ public class CharacterController2D : MonoBehaviour
 				Flip();
 			}
 		}
-		// If the player should jump...
-		if (m_Grounded && jump)
+
+        float jumpForce = m_JumpForce * m_Rigidbody2D.mass;
+
+        // If the player should jump...
+        if (jump && m_Grounded)
 		{
-			// Add a vertical force to the player.
-			m_Grounded = false;
-			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+			isJumping = true;
+			currentJumpTime = jumpTime;
+            m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, jumpForce);
+        }
+
+		if (jump && isJumping)
+		{
+			if (currentJumpTime > 0)
+			{
+                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 2 * jumpForce);
+                currentJumpTime -= Time.deltaTime;
+            }
+			else
+			{
+				isJumping = false;
+			}
 		}
+
+		if (!jump)
+		{
+			isJumping = false;
+        }
 	}
 
 
