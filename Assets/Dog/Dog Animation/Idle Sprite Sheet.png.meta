@@ -115,7 +115,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1536
+        width: 256
         height: 448
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -126,6 +126,111 @@ TextureImporter:
       bones: []
       spriteID: 1f2dc7c83bc7e0746b5852168009d38c
       internalID: -1739827960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle Sprite Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 256
+        height: 448
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 16437888f0ed85b4190fc627eb6a662f
+      internalID: 563143249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle Sprite Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 256
+        height: 448
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 864e2d37fa9482c40904d566861acb1c
+      internalID: 706540103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle Sprite Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 256
+        height: 448
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fe498e3bd8dae848813f0f666aa029b
+      internalID: -1135788706
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle Sprite Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 256
+        height: 448
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23ba5286ee41c234d8ed3ea47bbf9c18
+      internalID: -311263758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Idle Sprite Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 1280
+        y: 0
+        width: 256
+        height: 448
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2656721d1042b6c4ab08ed2a2d5cc0b4
+      internalID: 300273299
       vertices: []
       indices: 
       edges: []
@@ -142,6 +247,11 @@ TextureImporter:
     secondaryTextures: []
     nameFileIdTable:
       Idle Sprite Sheet_0: -1739827960
+      Idle Sprite Sheet_1: 563143249
+      Idle Sprite Sheet_2: 706540103
+      Idle Sprite Sheet_3: -1135788706
+      Idle Sprite Sheet_4: -311263758
+      Idle Sprite Sheet_5: 300273299
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

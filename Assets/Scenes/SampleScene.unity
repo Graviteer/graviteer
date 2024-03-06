@@ -943,6 +943,7 @@ GameObject:
   - component: {fileID: 849629945}
   - component: {fileID: 849629941}
   - component: {fileID: 849629946}
+  - component: {fileID: 849629947}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -966,6 +967,8 @@ MonoBehaviour:
   m_CrouchSpeed: 0.45
   m_MovementSmoothing: 0.05
   m_AirControl: 0
+  baseGravityScale: 3
+  fallSpeedMultiplier: 2.3333333
   m_WhatIsGround:
     serializedVersion: 2
     m_Bits: 55
@@ -1140,6 +1143,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.06, y: 8.56}
   m_EdgeRadius: 0
+--- !u!95 &849629947
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849629936}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a76a29e9aa48859418ae7ce5ac9e6af2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &901287835
 GameObject:
   m_ObjectHideFlags: 0
@@ -1657,4 +1681,3 @@ SceneRoots:
   - {fileID: 2348880}
   - {fileID: 115903250}
   - {fileID: 935084354}
-  - {fileID: 19155258}
