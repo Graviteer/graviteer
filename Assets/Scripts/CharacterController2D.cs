@@ -99,7 +99,7 @@ public class CharacterController2D : MonoBehaviour
 			{
 				// ... flip the player.
 				Flip();
-			}
+            }
 		}
 
         float jumpForce = m_JumpForce * m_Rigidbody2D.mass;
@@ -142,4 +142,6 @@ public class CharacterController2D : MonoBehaviour
 		theScale.x *= -1;
 		transform.localScale = theScale;
 	}
+
+
 }
