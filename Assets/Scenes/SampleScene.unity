@@ -2119,7 +2119,6 @@ GameObject:
   - component: {fileID: 1895844526}
   - component: {fileID: 1895844525}
   - component: {fileID: 1895844527}
-  - component: {fileID: 1895844528}
   m_Layer: 0
   m_Name: big-crate
   m_TagString: RayCastDetectable
@@ -2276,7 +2275,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 991, y: 396}
+  m_AnchoredPosition: {x: 864.03, y: 446.12}
   m_SizeDelta: {x: 50.1666, y: 58.6522}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1938228279
