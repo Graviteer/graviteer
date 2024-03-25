@@ -1,8 +1,10 @@
+using System.Collections;
 using UnityEngine;
 
 public class CharacterController2D : MonoBehaviour
 {
-	[SerializeField] private float m_JumpForce = 400f;							// Amount of force added when the player jumps.
+	[SerializeField] private float m_JumpForce = 400f;                          // Amount of force added when the player jumps.
+	[SerializeField] private float jumpTime = 1.0f;
 	[Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;			// Amount of maxSpeed applied to crouching movement. 1 = 100%
 	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;	// How much to smooth out the movement
 	[SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
@@ -10,16 +12,27 @@ public class CharacterController2D : MonoBehaviour
 	[SerializeField] private float fallSpeedMultiplier = 7.0f / 3.0f;
 	[SerializeField] private LayerMask m_WhatIsGround;							// A mask determining what is ground to the character
 	[SerializeField] private Collider2D m_CrouchDisableCollider;                // A collider that will be disabled when crouching
+	[SerializeField] private Collider2D m_WaterCheck;
 
     public MovementCheck m_GroundCheck;                         // A position marking where to check if the player is grounded.
     public MovementCheck m_CeilingCheck;							// A position marking where to check for ceilings
 	private bool m_Grounded;            // Whether or not the player is grounded.
+	private bool isJumping;
 	private Rigidbody2D m_Rigidbody2D;
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
     private Vector3 velocity = Vector3.zero;
+	private float currentJumpTime;
+	private bool isInWater = false;
+	private bool swimLocked = false;
+	private float timeInWater = 0f;
+	private float swimLockDuration = 0.15f;
+    private Camera mainCam;
+    public SpriteRenderer gunSprite;
+
 
     private void Awake()
 	{
+        mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 		m_Rigidbody2D = GetComponent<Rigidbody2D>();
 	}
 
@@ -33,6 +46,15 @@ public class CharacterController2D : MonoBehaviour
 		{
 			m_Rigidbody2D.gravityScale = baseGravityScale;
 		}
+        if (isInWater)
+        {
+            timeInWater += Time.deltaTime;
+			float targetDrag = Mathf.Lerp(1, 15, timeInWater / 0.15f);
+			m_Rigidbody2D.drag = targetDrag;
+			if (timeInWater > swimLockDuration) {
+				swimLocked = false;
+			}
+        }
     }
 
 
@@ -45,11 +67,23 @@ public class CharacterController2D : MonoBehaviour
 		{
 			m_Grounded = true;
 		}
+		if (isInWater)
+		{
+			// Clamp vertical speed
+			m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, Mathf.Min(m_Rigidbody2D.velocity.y, 2f));
+		}
 	}
 
 
 	public void Move(float move, bool crouch, bool jump)
 	{
+		if (isInWater)
+		{
+			move *= 0.5f;
+			if (jump && !swimLocked) {
+				m_Rigidbody2D.AddForce(new Vector2(0, 200f), ForceMode2D.Force);
+			}
+		}
 		// If crouching, check to see if the character can stand up
 		if (!crouch)
 		{
@@ -82,8 +116,9 @@ public class CharacterController2D : MonoBehaviour
 
 			// Move the character by finding the target velocity
 			Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
-			// And then smoothing it out and applying it to the character
-			m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref velocity, m_MovementSmoothing);
+            Vector3 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
+            // And then smoothing it out and applying it to the character
+            m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref velocity, m_MovementSmoothing);
 
 			// If the input is moving the player right and the player is facing left...
 			if (move > 0 && !m_FacingRight)
@@ -96,11 +131,9 @@ public class CharacterController2D : MonoBehaviour
 			{
 				// ... flip the player.
 				Flip();
-			}
+            }
 
-            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            if (mousePos.x < transform.position.x && m_FacingRight)
+            else if (mousePos.x < transform.position.x && m_FacingRight)
             {
                 Flip();
             }
@@ -108,17 +141,36 @@ public class CharacterController2D : MonoBehaviour
             {
                 Flip();
             }
-
         }
-		// If the player should jump...
-		if (m_Grounded && jump)
-		{
-			// Add a vertical force to the player.
-			m_Grounded = false;
-			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
-		}
-	}
 
+        float jumpForce = m_JumpForce * m_Rigidbody2D.mass;
+
+        // If the player should jump...
+        if (!isInWater && jump && m_Grounded)
+		{
+			isJumping = true;
+			currentJumpTime = jumpTime;
+            m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, jumpForce);
+        }
+
+		if (jump && isJumping)
+		{
+			if (currentJumpTime > 0)
+			{
+                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 2 * jumpForce);
+                currentJumpTime -= Time.deltaTime;
+            }
+			else
+			{
+				isJumping = false;
+			}
+		}
+
+		if (!jump)
+		{
+			isJumping = false;
+        }
+	}
 
 	private void Flip()
 	{
@@ -129,5 +181,44 @@ public class CharacterController2D : MonoBehaviour
 		Vector3 theScale = transform.localScale;
 		theScale.x *= -1;
 		transform.localScale = theScale;
+        gunSprite.flipX = !gunSprite.flipX;
+    }
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.tag == "Water")
+		{
+			EnterWater();
+		}
 	}
+
+	private void OnTriggerExit2D(Collider2D other)
+	{
+		if (other.CompareTag("Water"))
+		{
+			if (!m_WaterCheck.IsTouchingLayers(LayerMask.GetMask("Water")))
+			{
+				ExitWater();
+			}
+		}
+	}
+
+    private void EnterWater()
+    {
+		Debug.Log("Entered water.");
+        isInWater = true;
+		swimLocked = true;
+		m_Rigidbody2D.AddForce(Vector2.down * 2f, ForceMode2D.Impulse);
+		timeInWater = 0;
+    }
+
+	private void ExitWater()
+	{
+		Debug.Log("Exited water.");
+		isInWater = false;
+		m_Rigidbody2D.drag = 0f;
+        m_Rigidbody2D.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
+    }
+
+
+
 }
