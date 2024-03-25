@@ -202,7 +202,8 @@ public class CharacterController2D : MonoBehaviour
 		Debug.Log("Exited water.");
 		isInWater = false;
 		m_Rigidbody2D.drag = 0f;
-	}
+        m_Rigidbody2D.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
+    }
 
 
 
