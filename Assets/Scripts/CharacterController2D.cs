@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CharacterController2D : MonoBehaviour
@@ -20,6 +21,8 @@ public class CharacterController2D : MonoBehaviour
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
     private Vector3 velocity = Vector3.zero;
 	private float currentJumpTime;
+	private bool isInWater = false;
+
 
     private void Awake()
 	{
@@ -48,11 +51,23 @@ public class CharacterController2D : MonoBehaviour
 		{
 			m_Grounded = true;
 		}
+		if (isInWater)
+		{
+			// Clamp vertical speed
+			m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, Mathf.Min(m_Rigidbody2D.velocity.y, 2f)); // Adjust max vertical speed as needed
+		}
 	}
 
 
 	public void Move(float move, bool crouch, bool jump)
 	{
+		if (isInWater)
+		{
+			move *= 0.5f; // Slow down movement in water
+			if (jump) {
+				m_Rigidbody2D.AddForce(new Vector2(0, 200f), ForceMode2D.Force);
+			}
+		}
 		// If crouching, check to see if the character can stand up
 		if (!crouch)
 		{
@@ -105,7 +120,7 @@ public class CharacterController2D : MonoBehaviour
         float jumpForce = m_JumpForce * m_Rigidbody2D.mass;
 
         // If the player should jump...
-        if (jump && m_Grounded)
+        if (!isInWater && jump && m_Grounded)
 		{
 			isJumping = true;
 			currentJumpTime = jumpTime;
@@ -142,6 +157,44 @@ public class CharacterController2D : MonoBehaviour
 		theScale.x *= -1;
 		transform.localScale = theScale;
 	}
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.tag == "Water")
+		{
+			EnterWater();
+		}
+	}
+
+	private void OnTriggerExit2D(Collider2D other)
+	{
+		if (other.tag == "Water")
+		{
+			ExitWater();
+		}
+	}
+
+    private void EnterWater()
+    {
+        isInWater = true;
+		m_Rigidbody2D.AddForce(Vector2.down * 10f, ForceMode2D.Impulse);
+        m_Rigidbody2D.drag = 5f;
+		StartCoroutine(RevertInitialForceAfterDelay(0.15f));
+    }
+
+	private IEnumerator RevertInitialForceAfterDelay(float delayInSeconds)
+	{
+		yield return new WaitForSeconds(delayInSeconds);
+
+		// Apply an upward force to counteract the initial downward force
+		m_Rigidbody2D.AddForce(Vector2.up * 10f, ForceMode2D.Impulse);
+	}
+
+	private void ExitWater()
+	{
+		isInWater = false;
+		m_Rigidbody2D.drag = 0f; // Reset drag to its original value
+	}
+
 
 
 }
