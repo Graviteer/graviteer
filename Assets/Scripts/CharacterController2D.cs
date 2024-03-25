@@ -26,10 +26,13 @@ public class CharacterController2D : MonoBehaviour
 	private bool swimLocked = false;
 	private float timeInWater = 0f;
 	private float swimLockDuration = 0.15f;
+    private Camera mainCam;
+    public SpriteRenderer gunSprite;
 
 
     private void Awake()
 	{
+        mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 		m_Rigidbody2D = GetComponent<Rigidbody2D>();
 	}
 
@@ -113,8 +116,9 @@ public class CharacterController2D : MonoBehaviour
 
 			// Move the character by finding the target velocity
 			Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
-			// And then smoothing it out and applying it to the character
-			m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref velocity, m_MovementSmoothing);
+            Vector3 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
+            // And then smoothing it out and applying it to the character
+            m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref velocity, m_MovementSmoothing);
 
 			// If the input is moving the player right and the player is facing left...
 			if (move > 0 && !m_FacingRight)
@@ -128,7 +132,16 @@ public class CharacterController2D : MonoBehaviour
 				// ... flip the player.
 				Flip();
             }
-		}
+
+            else if (mousePos.x < transform.position.x && m_FacingRight)
+            {
+                Flip();
+            }
+            else if (mousePos.x > transform.position.x && !m_FacingRight)
+            {
+                Flip();
+            }
+        }
 
         float jumpForce = m_JumpForce * m_Rigidbody2D.mass;
 
@@ -168,7 +181,8 @@ public class CharacterController2D : MonoBehaviour
 		Vector3 theScale = transform.localScale;
 		theScale.x *= -1;
 		transform.localScale = theScale;
-	}
+        gunSprite.flipX = !gunSprite.flipX;
+    }
 	private void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.tag == "Water")
