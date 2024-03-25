@@ -22,6 +22,8 @@ public class MovementCheck : MonoBehaviour
                 return;
             }
         }
+
+        isColliding = false;
     }
 
     private void OnCollisionExit2D(Collision2D collision)
