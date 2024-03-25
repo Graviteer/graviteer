@@ -25,10 +25,13 @@ public class PlayerMovement : MonoBehaviour
         {
             jump = true;
         }
+<<<<<<< HEAD
         if (Input.GetButtonUp("Jump"))
         {
             jump = false;
         }
+=======
+>>>>>>> efc9b5e78bc40ac8f05aed9d383208c6d3dbad1a
     }
 
     void FixedUpdate()

@@ -100,12 +100,30 @@ public class CharacterController2D : MonoBehaviour
 				// ... flip the player.
 				Flip();
 			}
+<<<<<<< HEAD
 		}
 
         float jumpForce = m_JumpForce * m_Rigidbody2D.mass;
 
         // If the player should jump...
         if (jump && m_Grounded)
+=======
+
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            if (mousePos.x < transform.position.x && m_FacingRight)
+            {
+                Flip();
+            }
+            else if (mousePos.x > transform.position.x && !m_FacingRight)
+            {
+                Flip();
+            }
+
+        }
+		// If the player should jump...
+		if (m_Grounded && jump)
+>>>>>>> efc9b5e78bc40ac8f05aed9d383208c6d3dbad1a
 		{
 			isJumping = true;
 			currentJumpTime = jumpTime;
