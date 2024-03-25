@@ -12,6 +12,7 @@ public class CharacterController2D : MonoBehaviour
 	[SerializeField] private float fallSpeedMultiplier = 7.0f / 3.0f;
 	[SerializeField] private LayerMask m_WhatIsGround;							// A mask determining what is ground to the character
 	[SerializeField] private Collider2D m_CrouchDisableCollider;                // A collider that will be disabled when crouching
+	[SerializeField] private Collider2D m_WaterCheck;
 
     public MovementCheck m_GroundCheck;                         // A position marking where to check if the player is grounded.
     public MovementCheck m_CeilingCheck;							// A position marking where to check for ceilings
@@ -22,6 +23,9 @@ public class CharacterController2D : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
 	private float currentJumpTime;
 	private bool isInWater = false;
+	private bool swimLocked = false;
+	private float timeInWater = 0f;
+	private float swimLockDuration = 0.15f;
 
 
     private void Awake()
@@ -39,6 +43,15 @@ public class CharacterController2D : MonoBehaviour
 		{
 			m_Rigidbody2D.gravityScale = baseGravityScale;
 		}
+        if (isInWater)
+        {
+            timeInWater += Time.deltaTime;
+			float targetDrag = Mathf.Lerp(1, 15, timeInWater / 0.15f);
+			m_Rigidbody2D.drag = targetDrag;
+			if (timeInWater > swimLockDuration) {
+				swimLocked = false;
+			}
+        }
     }
 
 
@@ -54,7 +67,7 @@ public class CharacterController2D : MonoBehaviour
 		if (isInWater)
 		{
 			// Clamp vertical speed
-			m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, Mathf.Min(m_Rigidbody2D.velocity.y, 2f)); // Adjust max vertical speed as needed
+			m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, Mathf.Min(m_Rigidbody2D.velocity.y, 2f));
 		}
 	}
 
@@ -63,8 +76,8 @@ public class CharacterController2D : MonoBehaviour
 	{
 		if (isInWater)
 		{
-			move *= 0.5f; // Slow down movement in water
-			if (jump) {
+			move *= 0.5f;
+			if (jump && !swimLocked) {
 				m_Rigidbody2D.AddForce(new Vector2(0, 200f), ForceMode2D.Force);
 			}
 		}
@@ -146,7 +159,6 @@ public class CharacterController2D : MonoBehaviour
         }
 	}
 
-
 	private void Flip()
 	{
 		// Switch the way the player is labelled as facing.
@@ -167,32 +179,29 @@ public class CharacterController2D : MonoBehaviour
 
 	private void OnTriggerExit2D(Collider2D other)
 	{
-		if (other.tag == "Water")
+		if (other.CompareTag("Water"))
 		{
-			ExitWater();
+			if (!m_WaterCheck.IsTouchingLayers(LayerMask.GetMask("Water")))
+			{
+				ExitWater();
+			}
 		}
 	}
 
     private void EnterWater()
     {
+		Debug.Log("Entered water.");
         isInWater = true;
-		m_Rigidbody2D.AddForce(Vector2.down * 10f, ForceMode2D.Impulse);
-        m_Rigidbody2D.drag = 5f;
-		StartCoroutine(RevertInitialForceAfterDelay(0.15f));
+		swimLocked = true;
+		m_Rigidbody2D.AddForce(Vector2.down * 2f, ForceMode2D.Impulse);
+		timeInWater = 0;
     }
-
-	private IEnumerator RevertInitialForceAfterDelay(float delayInSeconds)
-	{
-		yield return new WaitForSeconds(delayInSeconds);
-
-		// Apply an upward force to counteract the initial downward force
-		m_Rigidbody2D.AddForce(Vector2.up * 10f, ForceMode2D.Impulse);
-	}
 
 	private void ExitWater()
 	{
+		Debug.Log("Exited water.");
 		isInWater = false;
-		m_Rigidbody2D.drag = 0f; // Reset drag to its original value
+		m_Rigidbody2D.drag = 0f;
 	}
 
 
