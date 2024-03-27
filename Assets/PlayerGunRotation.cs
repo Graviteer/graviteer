@@ -6,10 +6,8 @@ public class ShootIt : MonoBehaviour
 {
 
     private Camera mainCam;
-    private Vector3 mousePos;
-    
 
-    bool facingRight = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,28 +17,16 @@ public class ShootIt : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
+
+
 
         //Gun Movement
-        Vector3 rotation = mousePos - transform.position;
-        float rotZ = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, rotZ);
+        Vector2 rot = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
+        float angle = Mathf.Atan2(rot.y, rot.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = rotation;
 
-        //if(mousePos.x < transform.position.x && facingRight)
-        //{
-        //   flip();
-        //}
-        //else if (mousePos.x > transform.position.x && !facingRight)
-        //{
-        //    flip();
-        //}
 
     }
 
-    void flip()
-    {
-        facingRight = !facingRight;
-        transform.Rotate(0f, 180f, 0f);
-        
-    }
 }
