@@ -135,8 +135,9 @@ GameObject:
   - component: {fileID: 39737178}
   - component: {fileID: 39737177}
   - component: {fileID: 39737176}
+  - component: {fileID: 39737179}
   m_Layer: 5
-  m_Name: LevelButton
+  m_Name: Level1Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -206,10 +207,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: 6c2f59b23ffc0bb4cad1db375c2145eb, type: 3}
-        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
-        m_MethodName: 
-        m_Mode: 5
+      - m_Target: {fileID: 39737179}
+        m_TargetAssemblyTypeName: World1LevelMenu, Assembly-CSharp
+        m_MethodName: Level1
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -256,6 +257,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 39737174}
   m_CullTransparentMesh: 1
+--- !u!114 &39737179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 39737174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd4b33f7d60db4891b617038607337b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &42051491
 GameObject:
   m_ObjectHideFlags: 0
@@ -1764,6 +1777,7 @@ GameObject:
   m_Component:
   - component: {fileID: 738275056}
   - component: {fileID: 738275057}
+  - component: {fileID: 738275058}
   m_Layer: 5
   m_Name: World1LevelMenu
   m_TagString: Untagged
@@ -1804,6 +1818,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c2f59b23ffc0bb4cad1db375c2145eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &738275058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738275055}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd4b33f7d60db4891b617038607337b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &830137188
