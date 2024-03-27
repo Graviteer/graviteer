@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CharacterController2D : MonoBehaviour
@@ -11,6 +12,7 @@ public class CharacterController2D : MonoBehaviour
 	[SerializeField] private float fallSpeedMultiplier = 7.0f / 3.0f;
 	[SerializeField] private LayerMask m_WhatIsGround;							// A mask determining what is ground to the character
 	[SerializeField] private Collider2D m_CrouchDisableCollider;                // A collider that will be disabled when crouching
+	[SerializeField] private Collider2D m_WaterCheck;
 
     public MovementCheck m_GroundCheck;                         // A position marking where to check if the player is grounded.
     public MovementCheck m_CeilingCheck;							// A position marking where to check for ceilings
@@ -20,6 +22,11 @@ public class CharacterController2D : MonoBehaviour
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
     private Vector3 velocity = Vector3.zero;
 	private float currentJumpTime;
+	private bool isInWater = false;
+	private bool swimLocked = false;
+	private float timeInWater = 0f;
+	private float swimLockDuration = 0.15f;
+
 
     private void Awake()
 	{
@@ -36,6 +43,15 @@ public class CharacterController2D : MonoBehaviour
 		{
 			m_Rigidbody2D.gravityScale = baseGravityScale;
 		}
+        if (isInWater)
+        {
+            timeInWater += Time.deltaTime;
+			float targetDrag = Mathf.Lerp(1, 15, timeInWater / 0.15f);
+			m_Rigidbody2D.drag = targetDrag;
+			if (timeInWater > swimLockDuration) {
+				swimLocked = false;
+			}
+        }
     }
 
 
@@ -48,11 +64,23 @@ public class CharacterController2D : MonoBehaviour
 		{
 			m_Grounded = true;
 		}
+		if (isInWater)
+		{
+			// Clamp vertical speed
+			m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, Mathf.Min(m_Rigidbody2D.velocity.y, 2f));
+		}
 	}
 
 
 	public void Move(float move, bool crouch, bool jump)
 	{
+		if (isInWater)
+		{
+			move *= 0.5f;
+			if (jump && !swimLocked) {
+				m_Rigidbody2D.AddForce(new Vector2(0, 200f), ForceMode2D.Force);
+			}
+		}
 		// If crouching, check to see if the character can stand up
 		if (!crouch)
 		{
@@ -105,7 +133,7 @@ public class CharacterController2D : MonoBehaviour
         float jumpForce = m_JumpForce * m_Rigidbody2D.mass;
 
         // If the player should jump...
-        if (jump && m_Grounded)
+        if (!isInWater && jump && m_Grounded)
 		{
 			isJumping = true;
 			currentJumpTime = jumpTime;
@@ -131,7 +159,6 @@ public class CharacterController2D : MonoBehaviour
         }
 	}
 
-
 	private void Flip()
 	{
 		// Switch the way the player is labelled as facing.
@@ -142,6 +169,42 @@ public class CharacterController2D : MonoBehaviour
 		theScale.x *= -1;
 		transform.localScale = theScale;
 	}
+	private void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.tag == "Water")
+		{
+			EnterWater();
+		}
+	}
+
+	private void OnTriggerExit2D(Collider2D other)
+	{
+		if (other.CompareTag("Water"))
+		{
+			if (!m_WaterCheck.IsTouchingLayers(LayerMask.GetMask("Water")))
+			{
+				ExitWater();
+			}
+		}
+	}
+
+    private void EnterWater()
+    {
+		Debug.Log("Entered water.");
+        isInWater = true;
+		swimLocked = true;
+		m_Rigidbody2D.AddForce(Vector2.down * 2f, ForceMode2D.Impulse);
+		timeInWater = 0;
+    }
+
+	private void ExitWater()
+	{
+		Debug.Log("Exited water.");
+		isInWater = false;
+		m_Rigidbody2D.drag = 0f;
+        m_Rigidbody2D.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
+    }
+
 
 
 }
