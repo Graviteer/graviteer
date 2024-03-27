@@ -29,7 +29,7 @@ public class GrapplingHook : MonoBehaviour
             distance: Mathf.Infinity,
             layerMask: grappleLayer);
 
-            if (hit.collider != null)
+            if (hit.collider != null && hit.rigidbody.bodyType == RigidbodyType2D.Static)
             {
                 grapplePoint = hit.point;
                 grapplePoint.z = 0;
