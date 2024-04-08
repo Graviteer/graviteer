@@ -475,8 +475,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   isColliding: 0
-<<<<<<< Updated upstream
-=======
 --- !u!1 &2653467616889958278
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,7 +560,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
->>>>>>> Stashed changes
 --- !u!1 &2661041638084630209
 GameObject:
   m_ObjectHideFlags: 0
@@ -657,8 +654,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   isColliding: 0
-<<<<<<< Updated upstream
-=======
 --- !u!1 &3298490858843387742
 GameObject:
   m_ObjectHideFlags: 0
@@ -827,4 +822,3 @@ Transform:
   - {fileID: 3983344475847033709}
   m_Father: {fileID: 6949400653982384952}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
->>>>>>> Stashed changes
