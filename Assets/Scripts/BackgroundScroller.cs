@@ -3,7 +3,6 @@ using UnityEngine;
 public class BackgroundScroller : MonoBehaviour
 {
     public float scrollSpeed;
-    public float tileSizeX;
     private Vector2 startPosition;
     private float spriteWidth;
 
