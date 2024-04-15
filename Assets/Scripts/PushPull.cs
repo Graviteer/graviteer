@@ -34,7 +34,7 @@ public class PushPull : MonoBehaviour
         }
     }
 
-    void moveObject()
+    public void moveObject()
     {
         if (lastAffectedObject != null)
         {
