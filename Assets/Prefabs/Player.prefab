@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07248fcfaae94a84f891f3f177127ae4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputReader: {fileID: 11400000, guid: f3949c116723d444281a8279c51b20eb, type: 2}
   controller: {fileID: 8254101345466935112}
   runSpeed: 80
 --- !u!114 &8254101345466935112
