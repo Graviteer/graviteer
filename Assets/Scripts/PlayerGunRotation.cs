@@ -6,6 +6,7 @@ public class ShootIt : MonoBehaviour
 {
 
     private Camera mainCam;
+    public Transform player;
     public InputReader inputReader;
     Vector2 mousePosition;
     
@@ -13,7 +14,7 @@ public class ShootIt : MonoBehaviour
     void Start()
     {
         inputReader.LookEvent += RotateGun;
-        mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        mainCam = Camera.main;
     }
 
     // Update is called once per frame
@@ -22,10 +23,26 @@ public class ShootIt : MonoBehaviour
 
     }
 
+    float ConstrainAngle(float angle, float playerDirection)
+    {
+        if (playerDirection >= 0)
+        {
+            return Mathf.Clamp(angle, -80, 80);
+        }
+        else
+        {
+            angle = (angle <= 0) ? 180 + angle : angle - 180;
+            return Mathf.Clamp(angle, -80, 80) + 180;
+        }
+    }
+
     void RotateGun(Vector2 mousePosition)
     {
-        Vector2 rot = (Camera.main.ScreenToWorldPoint(mousePosition) - transform.position).normalized;
+        Vector2 rot = (mainCam.ScreenToWorldPoint(mousePosition) - transform.position).normalized;
         float angle = Mathf.Atan2(rot.y, rot.x) * Mathf.Rad2Deg;
+
+        angle = ConstrainAngle(angle, player.localScale.x);
+
         Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         transform.rotation = rotation;
     }
