@@ -60,7 +60,7 @@ public class CharacterController2D : MonoBehaviour
     }
 
 
-    private void FixedUpdate()
+	private void FixedUpdate()
 	{
 		m_Grounded = false;
 
@@ -68,6 +68,11 @@ public class CharacterController2D : MonoBehaviour
 		if (m_GroundCheck.isColliding)
 		{
 			m_Grounded = true;
+		}
+		// Player is not being launched anymore once they hit the ground.
+		// Minimum launch duration so the initial grounded state doesn't interfere with the launch.
+		if (m_Grounded && launchPlayer.launchDuration <= 0) {
+			launchPlayer.beingLaunched = false;
 		}
 		if (isInWater)
 		{
@@ -96,48 +101,32 @@ public class CharacterController2D : MonoBehaviour
 			}
 		}
 
-		if (m_Rigidbody2D.velocity.x == 0 || move != 0) {
-			launchPlayer.beingLaunched = false;
-		}
-
-		//only control the player if grounded or airControl is turned on
-		if ((m_Grounded || m_AirControl) && !launchPlayer.beingLaunched)
+		// Dampen if player is moving or not being launched.
+		if (move != 0 || !launchPlayer.beingLaunched)
 		{
-
-			// If crouching
-			if (crouch)
-			{
-				// Reduce the speed by the crouchSpeed multiplier
-				move *= m_CrouchSpeed;
-
-				// Disable one of the colliders when crouching
-				if (m_CrouchDisableCollider != null)
-					m_CrouchDisableCollider.enabled = false;
-			} else
-			{
-				// Enable the collider when not crouching
-				if (m_CrouchDisableCollider != null)
-					m_CrouchDisableCollider.enabled = true;
-			}
-
 			// Move the character by finding the target velocity
 			Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
-            Vector3 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
-            // And then smoothing it out and applying it to the character
+			Vector3 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
+			// And then smoothing it out and applying it to the character
 			
-            m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref velocity, m_MovementSmoothing);
+			// Increase dampening if player IS BEING LAUNCHED or IS NOT GROUNDED.
+			if (!launchPlayer.beingLaunched && m_Grounded) {
+				m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref velocity, m_MovementSmoothing);
+			}
+			else
+			{
+				m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref velocity, 0.3f);
+			}
 
-			
-
-            if (mousePos.x < transform.position.x && m_FacingRight)
-            {
-                Flip();
-            }
-            else if (mousePos.x > transform.position.x && !m_FacingRight)
-            {
-                Flip();
-            }
-        }
+			if (mousePos.x < transform.position.x && m_FacingRight)
+			{
+				Flip();
+			}
+			else if (mousePos.x > transform.position.x && !m_FacingRight)
+			{
+				Flip();
+			}
+		}
 
         float jumpForce = m_JumpForce * m_Rigidbody2D.mass;
 
