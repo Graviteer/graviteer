@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -28,6 +29,7 @@ public class CharacterController2D : MonoBehaviour
 	private float swimLockDuration = 0.15f;
     private Camera mainCam;
     public SpriteRenderer gunSprite;
+	public LaunchPlayer launchPlayer;
 
 
     private void Awake()
@@ -94,8 +96,12 @@ public class CharacterController2D : MonoBehaviour
 			}
 		}
 
+		if (m_Rigidbody2D.velocity.x == 0 || move != 0) {
+			launchPlayer.beingLaunched = false;
+		}
+
 		//only control the player if grounded or airControl is turned on
-		if (m_Grounded || m_AirControl)
+		if ((m_Grounded || m_AirControl) && !launchPlayer.beingLaunched)
 		{
 
 			// If crouching
@@ -118,6 +124,7 @@ public class CharacterController2D : MonoBehaviour
 			Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
             Vector3 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
             // And then smoothing it out and applying it to the character
+			
             m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref velocity, m_MovementSmoothing);
 
 			
