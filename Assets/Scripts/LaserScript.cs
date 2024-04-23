@@ -32,8 +32,10 @@ public class LaserScript : MonoBehaviour
 
     void RenderLaser()
     {
-        int layerMask = 1 << LayerMask.NameToLayer("Player");
-        layerMask = ~layerMask;
+        int playerLayerMask = 1 << LayerMask.NameToLayer("Player");
+        int waterLayerMask = 1 << LayerMask.NameToLayer("Water");
+        int combinedMask = playerLayerMask | waterLayerMask;
+        int layerMask = ~combinedMask;
 
         Vector2 mouseWorldPos = mainCam.ScreenToWorldPoint(mousePosition);
         Vector2 direction = (mouseWorldPos - (Vector2)transform.position).normalized;

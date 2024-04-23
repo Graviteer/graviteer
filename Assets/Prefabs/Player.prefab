@@ -136,6 +136,7 @@ MonoBehaviour:
   m_WaterCheck: {fileID: 2034439192445294695}
   m_GroundCheck: {fileID: 1163190194920657920}
   m_CeilingCheck: {fileID: 2000059147456706000}
+  waterLaunchLock: 0
   gunSprite: {fileID: 619994431237923180}
   launchPlayer: {fileID: 3058009754061574453}
 --- !u!114 &2016910914992402199
@@ -677,6 +678,7 @@ MonoBehaviour:
   minimumLaunchDuration: 0.1
   launchDuration: 0
   beingLaunched: 0
+  controller: {fileID: 8254101345466935112}
 --- !u!1 &7980528856755996273
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ public class LaunchPlayer : MonoBehaviour
     public float launchDuration = 0;
     private float currentCooldown = 0;
     public bool beingLaunched = false;
+    public CharacterController2D controller;
 
     void Start()
     {
@@ -26,7 +27,7 @@ public class LaunchPlayer : MonoBehaviour
             launchDuration -= Time.deltaTime;
         }
 
-        if (Input.GetMouseButtonDown(0) && currentCooldown <= 0) 
+        if (Input.GetMouseButtonDown(0) && currentCooldown <= 0 && controller.waterLaunchLock > 1f) 
         {
             beingLaunched = true;
             currentCooldown = cooldownSeconds;

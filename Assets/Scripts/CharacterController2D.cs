@@ -28,6 +28,7 @@ public class CharacterController2D : MonoBehaviour
 	private bool isInWater = false;
 	private bool swimLocked = false;
 	private float timeInWater = 0f;
+	public float waterLaunchLock = 0f;
 	private float swimLockDuration = 0.15f;
     private Camera mainCam;
     public SpriteRenderer gunSprite;
@@ -59,10 +60,16 @@ public class CharacterController2D : MonoBehaviour
 		{
 			timeInWater += Time.deltaTime;
 			float targetDrag = Mathf.Lerp(1, 15, timeInWater / 0.15f);
+			if (launchPlayer.beingLaunched) {
+				targetDrag /= 3;
+			}
 			m_Rigidbody2D.drag = targetDrag;
 			if (timeInWater > swimLockDuration) {
 				swimLocked = false;
 			}
+			waterLaunchLock += Time.deltaTime;
+		} else {
+			waterLaunchLock += Time.deltaTime;
 		}
 	}
 
@@ -78,7 +85,7 @@ public class CharacterController2D : MonoBehaviour
 		}
 		// Player is not being launched anymore once they hit the ground.
 		// Minimum launch duration so the initial grounded state doesn't interfere with the launch.
-		if (m_Grounded && launchPlayer.launchDuration <= 0) {
+		if ((m_Grounded || isInWater) && launchPlayer.launchDuration <= 0) {
 			launchPlayer.beingLaunched = false;
 		}
 		if (isInWater)
@@ -227,6 +234,7 @@ public class CharacterController2D : MonoBehaviour
 		swimLocked = true;
 		m_Rigidbody2D.AddForce(Vector2.down * 2f, ForceMode2D.Impulse);
 		timeInWater = 0;
+		waterLaunchLock = 0;
     }
 
 	private void ExitWater()
@@ -235,6 +243,7 @@ public class CharacterController2D : MonoBehaviour
 		isInWater = false;
 		m_Rigidbody2D.drag = 0f;
         m_Rigidbody2D.AddForce(Vector2.up * 5f, ForceMode2D.Impulse);
+		waterLaunchLock = 0;
     }
 
 
