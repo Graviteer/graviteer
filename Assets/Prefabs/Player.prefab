@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ec9b8a73a068b948bb221adcb27420c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputReader: {fileID: 11400000, guid: f3949c116723d444281a8279c51b20eb, type: 2}
   m_JumpForce: 7
   jumpTime: 0.1
   m_CrouchSpeed: 0.45
@@ -655,6 +656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 6949400653982384952}
+  inputReader: {fileID: 11400000, guid: f3949c116723d444281a8279c51b20eb, type: 2}
 --- !u!1 &7980528856755996273
 GameObject:
   m_ObjectHideFlags: 0
@@ -700,9 +702,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e62729dd0c7e8e4681adc61385eaf96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LineRenderer: {fileID: 4759656300212479993}
-  LaserBeam: {fileID: 2143093249611222211}
+  inputReader: {fileID: 11400000, guid: f3949c116723d444281a8279c51b20eb, type: 2}
+  lineRenderer: {fileID: 4759656300212479993}
   player: {fileID: 6949400653982384952}
+  laserBeam: {fileID: 2143093249611222211}
 --- !u!1 &9079345386981820115
 GameObject:
   m_ObjectHideFlags: 0

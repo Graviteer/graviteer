@@ -1,27 +1,29 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class CharacterController2D : MonoBehaviour
 {
+	[SerializeField] private InputReader inputReader;
 	[SerializeField] private float m_JumpForce = 400f;                          // Amount of force added when the player jumps.
 	[SerializeField] private float jumpTime = 1.0f;
-	[Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;			// Amount of maxSpeed applied to crouching movement. 1 = 100%
-	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;	// How much to smooth out the movement
+	[Range(0, 1)][SerializeField] private float m_CrouchSpeed = .36f;           // Amount of maxSpeed applied to crouching movement. 1 = 100%
+	[Range(0, .3f)][SerializeField] private float m_MovementSmoothing = .05f;   // How much to smooth out the movement
 	[SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
 	[SerializeField] private float baseGravityScale = 3.0f;
 	[SerializeField] private float fallSpeedMultiplier = 7.0f / 3.0f;
-	[SerializeField] private LayerMask m_WhatIsGround;							// A mask determining what is ground to the character
+	[SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
 	[SerializeField] private Collider2D m_CrouchDisableCollider;                // A collider that will be disabled when crouching
 	[SerializeField] private Collider2D m_WaterCheck;
 
-    public MovementCheck m_GroundCheck;                         // A position marking where to check if the player is grounded.
-    public MovementCheck m_CeilingCheck;							// A position marking where to check for ceilings
+	public MovementCheck m_GroundCheck;                         // A position marking where to check if the player is grounded.
+	public MovementCheck m_CeilingCheck;                            // A position marking where to check for ceilings
 	private bool m_Grounded;            // Whether or not the player is grounded.
 	private bool isJumping;
 	private Rigidbody2D m_Rigidbody2D;
 	private bool m_FacingRight = true;  // For determining which way the player is currently facing.
-    private Vector3 velocity = Vector3.zero;
+	private Vector3 velocity = Vector3.zero;
 	private float currentJumpTime;
 	private bool isInWater = false;
 	private bool swimLocked = false;
@@ -32,14 +34,19 @@ public class CharacterController2D : MonoBehaviour
 	public LaunchPlayer launchPlayer;
 
 
-    private void Awake()
+	private void Awake()
 	{
-        mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+		mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
 		m_Rigidbody2D = GetComponent<Rigidbody2D>();
 	}
 
-    private void Update()
+    private void Start()
     {
+		inputReader.LookEvent += CheckToFlip;
+    }
+
+    private void Update()
+	{
 		if (m_Rigidbody2D.velocity.y < 0)
 		{
 			m_Rigidbody2D.gravityScale = baseGravityScale * fallSpeedMultiplier;
@@ -48,16 +55,16 @@ public class CharacterController2D : MonoBehaviour
 		{
 			m_Rigidbody2D.gravityScale = baseGravityScale;
 		}
-        if (isInWater)
-        {
-            timeInWater += Time.deltaTime;
+		if (isInWater)
+		{
+			timeInWater += Time.deltaTime;
 			float targetDrag = Mathf.Lerp(1, 15, timeInWater / 0.15f);
 			m_Rigidbody2D.drag = targetDrag;
 			if (timeInWater > swimLockDuration) {
 				swimLocked = false;
 			}
-        }
-    }
+		}
+	}
 
 
 	private void FixedUpdate()
@@ -128,23 +135,23 @@ public class CharacterController2D : MonoBehaviour
 			}
 		}
 
-        float jumpForce = m_JumpForce * m_Rigidbody2D.mass;
+		float jumpForce = m_JumpForce * m_Rigidbody2D.mass;
 
-        // If the player should jump...
-        if (!isInWater && jump && m_Grounded)
+		// If the player should jump...
+		if (!isInWater && jump && m_Grounded)
 		{
 			isJumping = true;
 			currentJumpTime = jumpTime;
-            m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, jumpForce);
-        }
+			m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, jumpForce);
+		}
 
 		if (jump && isJumping)
 		{
 			if (currentJumpTime > 0)
 			{
-                m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 2 * jumpForce);
-                currentJumpTime -= Time.deltaTime;
-            }
+				m_Rigidbody2D.velocity = new Vector2(m_Rigidbody2D.velocity.x, 2 * jumpForce);
+				currentJumpTime -= Time.deltaTime;
+			}
 			else
 			{
 				isJumping = false;
@@ -154,7 +161,20 @@ public class CharacterController2D : MonoBehaviour
 		if (!jump)
 		{
 			isJumping = false;
-        }
+		}
+    }
+
+	void CheckToFlip(Vector2 mousePosition)
+	{
+        Vector3 mousePos = mainCam.ScreenToWorldPoint(mousePosition);
+        if (mousePos.x<transform.position.x && m_FacingRight)
+		{
+			Flip();
+		}
+		else if (mousePos.x > transform.position.x && !m_FacingRight)
+		{
+			Flip();
+		}
 	}
 
 	private void Flip()
