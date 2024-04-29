@@ -33,10 +33,11 @@ public class PhysicsController : MonoBehaviour
                 break;
             case PhysicsState.Ether:
                 objectRigidbody.bodyType = RigidbodyType2D.Dynamic;
-                objectRigidbody.velocity = new Vector2(objectRigidbody.velocity.x, 0.0f);
+                objectRigidbody.gravityScale = 0;
                 break;
             case PhysicsState.Dynamic:
                 objectRigidbody.bodyType = RigidbodyType2D.Dynamic;
+                objectRigidbody.gravityScale = 1;
                 break;
         }
     }
