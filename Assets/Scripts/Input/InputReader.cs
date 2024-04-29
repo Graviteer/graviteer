@@ -17,7 +17,7 @@ public class InputReader : ScriptableObject, PlayerInput.IGameplayActions, Playe
     public event Action<Vector2> LookEvent;
     public event Action FireEvent;
     public event Action FireEndEvent;
-    public event Action SetFireModeEvent0;
+    public event Action<int> SetFireModeEvent;
     public event Action SetFireModeEvent1;
     public event Action SetFireModeEvent2;
     public event Action SetFireModeEvent3;
@@ -85,9 +85,34 @@ public class InputReader : ScriptableObject, PlayerInput.IGameplayActions, Playe
         }
     }
 
-    void PlayerInput.IGameplayActions.OnSetFireMode0(InputAction.CallbackContext context)
+    void PlayerInput.IGameplayActions.OnSetFireMode(InputAction.CallbackContext context)
     {
-        SetFireModeEvent0?.Invoke();
+        Vector3 mode0 = Vector3.up;
+        Vector3 mode1 = Vector3.down;
+        Vector3 mode2 = Vector3.left;
+        Vector3 mode3 = Vector3.right;
+        Vector3 mode4 = Vector3.forward;
+
+        switch (context.ReadValue<Vector3>())
+        {
+            case Vector3 v when v == mode0:
+                SetFireModeEvent?.Invoke(0);
+                break;
+            case Vector3 v when v == mode1:
+                SetFireModeEvent?.Invoke(1);
+                break;
+            case Vector3 v when v == mode2:
+                SetFireModeEvent?.Invoke(2);
+                break;
+            case Vector3 v when v == mode3:
+                SetFireModeEvent?.Invoke(3);
+                break;
+            case Vector3 v when v == mode4:
+                SetFireModeEvent?.Invoke(4);
+                break;
+            default:
+                break;
+        }
     }
 
     void PlayerInput.IGameplayActions.OnSetFireMode1(InputAction.CallbackContext context)

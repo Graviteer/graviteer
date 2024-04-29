@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3099525763572852663}
   - component: {fileID: 7254873191341561364}
   - component: {fileID: 8254101345466935112}
-  - component: {fileID: 2016910914992402199}
   - component: {fileID: 1588685914636327874}
   - component: {fileID: 7391739509467394681}
   - component: {fileID: 4708028046170233843}
@@ -124,9 +123,7 @@ MonoBehaviour:
   inputReader: {fileID: 11400000, guid: f3949c116723d444281a8279c51b20eb, type: 2}
   m_JumpForce: 7
   jumpTime: 0.1
-  m_CrouchSpeed: 0.45
   m_MovementSmoothing: 0.05
-  m_AirControl: 1
   baseGravityScale: 4.5
   fallSpeedMultiplier: 1.5
   m_WhatIsGround:
@@ -139,19 +136,6 @@ MonoBehaviour:
   waterLaunchLock: 0
   gunSprite: {fileID: 619994431237923180}
   launchPlayer: {fileID: 3058009754061574453}
---- !u!114 &2016910914992402199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 832272948228498182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59e0bc6891090b441b735fcf0dc9e49e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pushForce: 10
 --- !u!50 &1588685914636327874
 Rigidbody2D:
   serializedVersion: 4
@@ -622,6 +606,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5837795781812034404}
   - component: {fileID: 1452145741079132052}
+  - component: {fileID: 8105737782659687603}
+  - component: {fileID: 6244751185227878092}
   - component: {fileID: 3058009754061574453}
   m_Layer: 0
   m_Name: Laser Gun
@@ -660,7 +646,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 6949400653982384952}
   inputReader: {fileID: 11400000, guid: f3949c116723d444281a8279c51b20eb, type: 2}
---- !u!114 &3058009754061574453
+--- !u!114 &8105737782659687603
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -669,10 +655,51 @@ MonoBehaviour:
   m_GameObject: {fileID: 5930644469430009860}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2001e2247073c748ab150fb68e36f09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputReader: {fileID: 11400000, guid: f3949c116723d444281a8279c51b20eb, type: 2}
+  laserController: {fileID: 4559461167505449705}
+  isFunctionAvailable: 0100000000
+  laserColors:
+  - {r: 0, g: 0.5566038, b: 0.09167598, a: 1}
+  - {r: 1, g: 0.44950736, b: 0, a: 1}
+  - {r: 0, g: 0.44025186, b: 0.8773585, a: 1}
+  - {r: 0.8301887, g: 0, b: 0, a: 1}
+  - {r: 0.57881844, g: 0, b: 0.990566, a: 1}
+--- !u!114 &6244751185227878092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5930644469430009860}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59e0bc6891090b441b735fcf0dc9e49e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputReader: {fileID: 11400000, guid: f3949c116723d444281a8279c51b20eb, type: 2}
+  minRange: 8
+  maxRange: 15
+  pullSpeed: 20
+  player: {fileID: 6949400653982384952}
+  laserController: {fileID: 4559461167505449705}
+  isMovingObject: 0
+--- !u!114 &3058009754061574453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5930644469430009860}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8b8e648a93927944b8e1a0fb279b95f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1588685914636327874}
+  inputReader: {fileID: 11400000, guid: f3949c116723d444281a8279c51b20eb, type: 2}
   forceMagnitude: 1500
   cooldownSeconds: 2.5
   minimumLaunchDuration: 0.1
@@ -728,6 +755,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 4759656300212479993}
   player: {fileID: 6949400653982384952}
   laserBeam: {fileID: 2143093249611222211}
+  laserDirection: {x: 0, y: 0}
 --- !u!1 &9079345386981820115
 GameObject:
   m_ObjectHideFlags: 0

@@ -73,13 +73,13 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""SetFireMode0"",
-                    ""type"": ""Button"",
+                    ""name"": ""SetFireMode"",
+                    ""type"": ""Value"",
                     ""id"": ""2ace74a0-450a-4355-a0f3-e83b5e040b5c"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Vector3"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""SetFireMode1"",
@@ -197,15 +197,81 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": """",
-                    ""id"": ""71b8e072-a090-4455-94c3-5f9b382b975c"",
+                    ""name"": ""3D Vector"",
+                    ""id"": ""df456f5a-619b-4117-8dff-a096799150ab"",
+                    ""path"": ""3DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SetFireMode"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""d42adea0-2fa8-4ed1-9840-eb9bcb3319c7"",
                     ""path"": ""<Keyboard>/1"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""SetFireMode0"",
+                    ""action"": ""SetFireMode"",
                     ""isComposite"": false,
-                    ""isPartOfComposite"": false
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""6f89c68d-a38e-4aaa-b281-2d9331ca3fa7"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SetFireMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""d6b92294-4cab-43d4-8f21-0e887126b755"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SetFireMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""16488780-2f89-4b47-8800-f66a6812c1a8"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SetFireMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""forward"",
+                    ""id"": ""983527b3-4cae-437f-a7d9-8beb96093f54"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SetFireMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""backward"",
+                    ""id"": ""9ba0f667-c1b9-46f5-8d95-9f8d536adeff"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SetFireMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 },
                 {
                     ""name"": """",
@@ -291,7 +357,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Gameplay_Pause = m_Gameplay.FindAction("Pause", throwIfNotFound: true);
         m_Gameplay_Look = m_Gameplay.FindAction("Look", throwIfNotFound: true);
         m_Gameplay_Fire = m_Gameplay.FindAction("Fire", throwIfNotFound: true);
-        m_Gameplay_SetFireMode0 = m_Gameplay.FindAction("SetFireMode0", throwIfNotFound: true);
+        m_Gameplay_SetFireMode = m_Gameplay.FindAction("SetFireMode", throwIfNotFound: true);
         m_Gameplay_SetFireMode1 = m_Gameplay.FindAction("SetFireMode1", throwIfNotFound: true);
         m_Gameplay_SetFireMode2 = m_Gameplay.FindAction("SetFireMode2", throwIfNotFound: true);
         m_Gameplay_SetFireMode3 = m_Gameplay.FindAction("SetFireMode3", throwIfNotFound: true);
@@ -365,7 +431,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Gameplay_Pause;
     private readonly InputAction m_Gameplay_Look;
     private readonly InputAction m_Gameplay_Fire;
-    private readonly InputAction m_Gameplay_SetFireMode0;
+    private readonly InputAction m_Gameplay_SetFireMode;
     private readonly InputAction m_Gameplay_SetFireMode1;
     private readonly InputAction m_Gameplay_SetFireMode2;
     private readonly InputAction m_Gameplay_SetFireMode3;
@@ -379,7 +445,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Pause => m_Wrapper.m_Gameplay_Pause;
         public InputAction @Look => m_Wrapper.m_Gameplay_Look;
         public InputAction @Fire => m_Wrapper.m_Gameplay_Fire;
-        public InputAction @SetFireMode0 => m_Wrapper.m_Gameplay_SetFireMode0;
+        public InputAction @SetFireMode => m_Wrapper.m_Gameplay_SetFireMode;
         public InputAction @SetFireMode1 => m_Wrapper.m_Gameplay_SetFireMode1;
         public InputAction @SetFireMode2 => m_Wrapper.m_Gameplay_SetFireMode2;
         public InputAction @SetFireMode3 => m_Wrapper.m_Gameplay_SetFireMode3;
@@ -408,9 +474,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Fire.started += instance.OnFire;
             @Fire.performed += instance.OnFire;
             @Fire.canceled += instance.OnFire;
-            @SetFireMode0.started += instance.OnSetFireMode0;
-            @SetFireMode0.performed += instance.OnSetFireMode0;
-            @SetFireMode0.canceled += instance.OnSetFireMode0;
+            @SetFireMode.started += instance.OnSetFireMode;
+            @SetFireMode.performed += instance.OnSetFireMode;
+            @SetFireMode.canceled += instance.OnSetFireMode;
             @SetFireMode1.started += instance.OnSetFireMode1;
             @SetFireMode1.performed += instance.OnSetFireMode1;
             @SetFireMode1.canceled += instance.OnSetFireMode1;
@@ -442,9 +508,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Fire.started -= instance.OnFire;
             @Fire.performed -= instance.OnFire;
             @Fire.canceled -= instance.OnFire;
-            @SetFireMode0.started -= instance.OnSetFireMode0;
-            @SetFireMode0.performed -= instance.OnSetFireMode0;
-            @SetFireMode0.canceled -= instance.OnSetFireMode0;
+            @SetFireMode.started -= instance.OnSetFireMode;
+            @SetFireMode.performed -= instance.OnSetFireMode;
+            @SetFireMode.canceled -= instance.OnSetFireMode;
             @SetFireMode1.started -= instance.OnSetFireMode1;
             @SetFireMode1.performed -= instance.OnSetFireMode1;
             @SetFireMode1.canceled -= instance.OnSetFireMode1;
@@ -527,7 +593,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnPause(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
-        void OnSetFireMode0(InputAction.CallbackContext context);
+        void OnSetFireMode(InputAction.CallbackContext context);
         void OnSetFireMode1(InputAction.CallbackContext context);
         void OnSetFireMode2(InputAction.CallbackContext context);
         void OnSetFireMode3(InputAction.CallbackContext context);
