@@ -158,6 +158,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: f3949c116723d444281a8279c51b20eb, type: 2}
+        m_TargetAssemblyTypeName: InputReader, Assembly-CSharp
+        m_MethodName: EnableGameplayInput
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &4870119004602566167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1376,6 +1388,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1380477662370624960}
         m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
         m_MethodName: freezeGameTime
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 11400000, guid: f3949c116723d444281a8279c51b20eb, type: 2}
+        m_TargetAssemblyTypeName: InputReader, Assembly-CSharp
+        m_MethodName: EnableUIInput
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
