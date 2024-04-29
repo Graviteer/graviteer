@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ec9b8a73a068b948bb221adcb27420c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputReader: {fileID: 11400000, guid: f3949c116723d444281a8279c51b20eb, type: 2}
   m_JumpForce: 7
   jumpTime: 0.1
   m_CrouchSpeed: 0.45
@@ -135,7 +136,9 @@ MonoBehaviour:
   m_WaterCheck: {fileID: 2034439192445294695}
   m_GroundCheck: {fileID: 1163190194920657920}
   m_CeilingCheck: {fileID: 2000059147456706000}
+  waterLaunchLock: 0
   gunSprite: {fileID: 619994431237923180}
+  launchPlayer: {fileID: 3058009754061574453}
 --- !u!114 &2016910914992402199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -619,6 +622,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5837795781812034404}
   - component: {fileID: 1452145741079132052}
+  - component: {fileID: 3058009754061574453}
   m_Layer: 0
   m_Name: Laser Gun
   m_TagString: Untagged
@@ -655,6 +659,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 6949400653982384952}
+  inputReader: {fileID: 11400000, guid: f3949c116723d444281a8279c51b20eb, type: 2}
+--- !u!114 &3058009754061574453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5930644469430009860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8b8e648a93927944b8e1a0fb279b95f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1588685914636327874}
+  forceMagnitude: 1500
+  cooldownSeconds: 2.5
+  minimumLaunchDuration: 0.1
+  launchDuration: 0
+  beingLaunched: 0
+  controller: {fileID: 8254101345466935112}
 --- !u!1 &7980528856755996273
 GameObject:
   m_ObjectHideFlags: 0
@@ -700,9 +724,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e62729dd0c7e8e4681adc61385eaf96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LineRenderer: {fileID: 4759656300212479993}
-  LaserBeam: {fileID: 2143093249611222211}
+  inputReader: {fileID: 11400000, guid: f3949c116723d444281a8279c51b20eb, type: 2}
+  lineRenderer: {fileID: 4759656300212479993}
   player: {fileID: 6949400653982384952}
+  laserBeam: {fileID: 2143093249611222211}
 --- !u!1 &9079345386981820115
 GameObject:
   m_ObjectHideFlags: 0

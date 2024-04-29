@@ -6,16 +6,20 @@ public class ShootIt : MonoBehaviour
 {
     private Camera mainCam;
     public Transform player;
-
+    public InputReader inputReader;
+    Vector2 mousePosition;
+    
+    // Start is called before the first frame update
     void Start()
     {
+        inputReader.LookEvent += RotateGun;
         mainCam = Camera.main;
     }
 
     void Update()
     {
-        Vector2 direction = (mainCam.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Vector2 rot = (mainCam.ScreenToWorldPoint(mousePosition) - transform.position).normalized;
+        float angle = Mathf.Atan2(rot.y, rot.x) * Mathf.Rad2Deg;
 
         angle = ConstrainAngle(angle, player.localScale.x);
 
@@ -36,4 +40,8 @@ public class ShootIt : MonoBehaviour
         }
     }
 
+    void RotateGun(Vector2 mousePosition)
+    {
+        this.mousePosition = mousePosition;
+    }
 }
