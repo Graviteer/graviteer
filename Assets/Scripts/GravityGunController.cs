@@ -19,6 +19,7 @@ public class GravityGunController : MonoBehaviour
     public Color[] laserColors = new Color[5];
 
     PushPull pushPullFunc;
+    GrapplingHook grappleFunc;
     LaunchPlayer launchPlayerFunc;
 
     void OnEnable()
@@ -35,6 +36,7 @@ public class GravityGunController : MonoBehaviour
     void Start()
     {
         pushPullFunc = GetComponent<PushPull>();
+        grappleFunc = GetComponent<GrapplingHook>();
         launchPlayerFunc = GetComponent<LaunchPlayer>();
 
         SetGravGunState(0);
@@ -51,6 +53,11 @@ public class GravityGunController : MonoBehaviour
         if (pushPullFunc)
         {
             pushPullFunc.enabled = false;
+        }
+        
+        if (grappleFunc)
+        {
+            grappleFunc.enabled = false;
         }
 
         if (launchPlayerFunc)
@@ -73,6 +80,7 @@ public class GravityGunController : MonoBehaviour
                 pushPullFunc.enabled = true;
                 break;
             case 1:
+                grappleFunc.enabled = true;
                 break;
             case 2:
                 break;

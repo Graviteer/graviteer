@@ -9,11 +9,10 @@ public class GrapplingHook : MonoBehaviour
     [SerializeField] private LineRenderer rope;
 
     private Vector3 grapplePoint;
-    private DistanceJoint2D joint;
+    public DistanceJoint2D joint;
     // Start is called before the first frame update
     void Start()
     {
-        joint = gameObject.GetComponent<DistanceJoint2D>();
         joint.enabled = false;
         rope.enabled = false;
     }
@@ -21,15 +20,17 @@ public class GrapplingHook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("Grappling Hook Update");
         if (Input.GetMouseButtonDown(0))
         {
+            Debug.Log("Mouse Button Down");
             RaycastHit2D hit = Physics2D.Raycast(
             origin: Camera.main.ScreenToWorldPoint(Input.mousePosition),
             direction: Vector2.zero,
             distance: Mathf.Infinity,
             layerMask: grappleLayer);
 
-            if (hit.collider != null && hit.rigidbody.bodyType == RigidbodyType2D.Static)
+            if (hit.collider != null)
             {
                 grapplePoint = hit.point;
                 grapplePoint.z = 0;
