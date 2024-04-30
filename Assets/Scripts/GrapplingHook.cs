@@ -20,10 +20,8 @@ public class GrapplingHook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Grappling Hook Update");
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Mouse Button Down");
             RaycastHit2D hit = Physics2D.Raycast(
             origin: Camera.main.ScreenToWorldPoint(Input.mousePosition),
             direction: Vector2.zero,
