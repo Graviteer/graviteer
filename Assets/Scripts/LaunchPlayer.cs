@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class LaunchPlayer : MonoBehaviour
 {
     public Rigidbody2D player;
+    [SerializeField] private InputReader inputReader;
     public float forceMagnitude = 1500f;
     public float cooldownSeconds = 2.5f;
     public float minimumLaunchDuration = 0.1f;
@@ -11,6 +12,16 @@ public class LaunchPlayer : MonoBehaviour
     private float currentCooldown = 0;
     public bool beingLaunched = false;
     public CharacterController2D controller;
+
+    void OnEnable()
+    {
+        inputReader.FireEvent += Launch;
+    }
+
+    void OnDisable()
+    {
+        inputReader.FireEvent += Launch;
+    }
 
     void Start()
     {
@@ -26,21 +37,26 @@ public class LaunchPlayer : MonoBehaviour
             currentCooldown -= Time.deltaTime;
             launchDuration -= Time.deltaTime;
         }
+    }
 
-        if (Input.GetMouseButtonDown(0) && currentCooldown <= 0 && controller.waterLaunchLock > 1f) 
+    void Launch()
+    {
+        if (currentCooldown > 0 || controller.waterLaunchLock <= 1f)
         {
-            beingLaunched = true;
-            currentCooldown = cooldownSeconds;
-            launchDuration = minimumLaunchDuration;
-
-            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            mouseWorldPosition.z = 0;
-
-            Vector3 directionToMouse = mouseWorldPosition - transform.position;
-
-            Vector3 forceDirection = directionToMouse.normalized;
-
-            player.AddForce(-forceDirection * forceMagnitude);
+            return;
         }
+
+        beingLaunched = true;
+        currentCooldown = cooldownSeconds;
+        launchDuration = minimumLaunchDuration;
+
+        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorldPosition.z = 0;
+
+        Vector3 directionToMouse = mouseWorldPosition - transform.position;
+
+        Vector3 forceDirection = directionToMouse.normalized;
+
+        player.AddForce(-forceDirection * forceMagnitude);
     }
 }

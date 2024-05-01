@@ -6,6 +6,8 @@ public class LaserScript : MonoBehaviour
     public LineRenderer lineRenderer;
     public Transform player;
     public Transform laserBeam;
+
+    [HideInInspector] public Vector2 laserDirection;
     Camera mainCam;
 
     bool isFiring = false;
@@ -20,23 +22,16 @@ public class LaserScript : MonoBehaviour
         lineRenderer.enabled = false;
     }
 
+    private void OnDisable()
+    {
+        inputReader.LookEvent -= GetMousePosition;
+        inputReader.FireEvent -= StartFiring;
+        inputReader.FireEndEvent -= StopFiring;
+    }
+
     private void Update()
     {
         lineRenderer.SetPosition(0, transform.position);
-
-        if (isFiring)
-        {
-            RenderLaser();
-        }
-    }
-
-    void RenderLaser()
-    {
-        int playerLayerMask = 1 << LayerMask.NameToLayer("Player");
-        int waterLayerMask = 1 << LayerMask.NameToLayer("Water");
-        int triggerLayerMask = 1 << LayerMask.NameToLayer("Collision Triggers");
-        int combinedMask = playerLayerMask | waterLayerMask | triggerLayerMask;
-        int layerMask = ~combinedMask;
 
         Vector2 mouseWorldPos = mainCam.ScreenToWorldPoint(mousePosition);
         Vector2 direction = (mouseWorldPos - (Vector2)transform.position).normalized;
@@ -44,8 +39,23 @@ public class LaserScript : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         float constrainedAngle = ConstrainAngle(angle, player.localScale.x);
 
-        Vector2 finalDirection = Quaternion.Euler(0, 0, constrainedAngle) * Vector2.right;
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, finalDirection, Mathf.Infinity, layerMask);
+        laserDirection = Quaternion.Euler(0, 0, constrainedAngle) * Vector2.right;
+
+        if (isFiring)
+        {
+            RenderLaser();
+        }
+    }
+
+    public void RenderLaser()
+    {
+        int playerLayerMask = 1 << LayerMask.NameToLayer("Player");
+        int waterLayerMask = 1 << LayerMask.NameToLayer("Water");
+        int triggerLayerMask = 1 << LayerMask.NameToLayer("Collision Triggers");
+        int combinedMask = playerLayerMask | waterLayerMask | triggerLayerMask;
+        int layerMask = ~combinedMask;
+        
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, laserDirection, Mathf.Infinity, layerMask);
 
         if (hit)
         {
@@ -55,7 +65,7 @@ public class LaserScript : MonoBehaviour
         else
         {
 
-            lineRenderer.SetPosition(1, (Vector2)transform.position + finalDirection * 100);
+            lineRenderer.SetPosition(1, (Vector2)transform.position + laserDirection * 100);
         }
     }
 
