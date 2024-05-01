@@ -34,7 +34,8 @@ public class LaserScript : MonoBehaviour
     {
         int playerLayerMask = 1 << LayerMask.NameToLayer("Player");
         int waterLayerMask = 1 << LayerMask.NameToLayer("Water");
-        int combinedMask = playerLayerMask | waterLayerMask;
+        int triggerLayerMask = 1 << LayerMask.NameToLayer("Collision Triggers");
+        int combinedMask = playerLayerMask | waterLayerMask | triggerLayerMask;
         int layerMask = ~combinedMask;
 
         Vector2 mouseWorldPos = mainCam.ScreenToWorldPoint(mousePosition);
