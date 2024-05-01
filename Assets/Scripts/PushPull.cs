@@ -28,6 +28,13 @@ public class PushPull : MonoBehaviour
 
     void OnDisable()
     {
+        if (isMovingObject)
+        {
+            StopFiring();
+        }
+
+        laserController.lineRenderer.enabled = false;
+
         inputReader.FireEndEvent -= StopFiring;
     }
 
