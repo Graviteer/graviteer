@@ -609,6 +609,7 @@ GameObject:
   - component: {fileID: 8105737782659687603}
   - component: {fileID: 6244751185227878092}
   - component: {fileID: 3058009754061574453}
+  - component: {fileID: 7032349088717605634}
   m_Layer: 0
   m_Name: Laser Gun
   m_TagString: Untagged
@@ -660,13 +661,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputReader: {fileID: 11400000, guid: f3949c116723d444281a8279c51b20eb, type: 2}
   laserController: {fileID: 4559461167505449705}
-  isFunctionAvailable: 0100000000
+  isFunctionAvailable: 01000001
   laserColors:
   - {r: 0, g: 0.5566038, b: 0.09167598, a: 1}
   - {r: 1, g: 0.44950736, b: 0, a: 1}
-  - {r: 0, g: 0.44025186, b: 0.8773585, a: 1}
   - {r: 0.8301887, g: 0, b: 0, a: 1}
-  - {r: 0.57881844, g: 0, b: 0.990566, a: 1}
+  - {r: 0, g: 0.44025186, b: 0.8773585, a: 1}
 --- !u!114 &6244751185227878092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -706,6 +706,23 @@ MonoBehaviour:
   launchDuration: 0
   beingLaunched: 0
   controller: {fileID: 8254101345466935112}
+--- !u!114 &7032349088717605634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5930644469430009860}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6ba2aa99d3e00241bb373e5c6af88b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inputReader: {fileID: 11400000, guid: f3949c116723d444281a8279c51b20eb, type: 2}
+  laserController: {fileID: 4559461167505449705}
+  maxRange: 20
+  freezeDuration: 10
+  abilityCooldown: 3
 --- !u!1 &7980528856755996273
 GameObject:
   m_ObjectHideFlags: 0
