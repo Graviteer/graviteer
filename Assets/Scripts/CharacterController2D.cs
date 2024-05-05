@@ -8,9 +8,8 @@ public class CharacterController2D : MonoBehaviour
 	[SerializeField] private InputReader inputReader;
 	[SerializeField] private float m_JumpForce = 400f;                          // Amount of force added when the player jumps.
 	[SerializeField] private float jumpTime = 1.0f;
-	[Range(0, 1)][SerializeField] private float m_CrouchSpeed = .36f;           // Amount of maxSpeed applied to crouching movement. 1 = 100%
 	[Range(0, .3f)][SerializeField] private float m_MovementSmoothing = .05f;   // How much to smooth out the movement
-	[SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
+	//[SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
 	[SerializeField] private float baseGravityScale = 3.0f;
 	[SerializeField] private float fallSpeedMultiplier = 7.0f / 3.0f;
 	[SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
@@ -34,16 +33,16 @@ public class CharacterController2D : MonoBehaviour
     public SpriteRenderer gunSprite;
 	public LaunchPlayer launchPlayer;
 
-
-	private void Awake()
-	{
-		mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-		m_Rigidbody2D = GetComponent<Rigidbody2D>();
-	}
-
     private void Start()
     {
-		inputReader.LookEvent += CheckToFlip;
+        mainCam = Camera.main;
+        m_Rigidbody2D = GetComponent<Rigidbody2D>();
+        inputReader.LookEvent += CheckToFlip;
+    }
+
+    private void OnDisable()
+    {
+        inputReader.LookEvent -= CheckToFlip;
     }
 
     private void Update()
@@ -120,7 +119,6 @@ public class CharacterController2D : MonoBehaviour
 		{
 			// Move the character by finding the target velocity
 			Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.velocity.y);
-			Vector3 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
 			// And then smoothing it out and applying it to the character
 			
 			// Increase dampening if player IS BEING LAUNCHED or IS NOT GROUNDED.
@@ -130,15 +128,6 @@ public class CharacterController2D : MonoBehaviour
 			else
 			{
 				m_Rigidbody2D.velocity = Vector3.SmoothDamp(m_Rigidbody2D.velocity, targetVelocity, ref velocity, 0.3f);
-			}
-
-			if (mousePos.x < transform.position.x && m_FacingRight)
-			{
-				Flip();
-			}
-			else if (mousePos.x > transform.position.x && !m_FacingRight)
-			{
-				Flip();
 			}
 		}
 
@@ -173,7 +162,7 @@ public class CharacterController2D : MonoBehaviour
 
 	void CheckToFlip(Vector2 mousePosition)
 	{
-        Vector3 mousePos = mainCam.ScreenToWorldPoint(mousePosition);
+		Vector3 mousePos = mainCam.ScreenToWorldPoint(mousePosition);
         if (mousePos.x<transform.position.x && m_FacingRight)
 		{
 			Flip();
