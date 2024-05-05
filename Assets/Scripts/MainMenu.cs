@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour
     public void PlayGame()
     {
         // Load the first level
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene(1);
     }
 
@@ -21,6 +22,7 @@ public class MainMenu : MonoBehaviour
 
     public void Menu()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene(0);
     }
     public void freezeGameTime()
