@@ -660,7 +660,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputReader: {fileID: 11400000, guid: f3949c116723d444281a8279c51b20eb, type: 2}
   laserController: {fileID: 4559461167505449705}
-  isFunctionAvailable: 0100000000
+  isFunctionAvailable: 0000000100
   laserColors:
   - {r: 0, g: 0.5566038, b: 0.09167598, a: 1}
   - {r: 1, g: 0.44950736, b: 0, a: 1}

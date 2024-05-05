@@ -15,7 +15,7 @@ public class NextLevelCollider : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.name == "Player")
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
