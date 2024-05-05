@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class OpenDoorWithKey : MonoBehaviour
 {
@@ -11,7 +12,6 @@ public class OpenDoorWithKey : MonoBehaviour
 
     void Start()
     {
-        LevelLoader = GetComponent<MainMenu>();
         popupText.SetActive(false);
     }
 
@@ -21,7 +21,7 @@ public class OpenDoorWithKey : MonoBehaviour
         {
             if (keylock.hasKey)
             {
-                LevelLoader.PlayGame();
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             } else
             {
                 popupText.SetActive(true);
