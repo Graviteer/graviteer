@@ -725,6 +725,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   rope: {fileID: 4759656300212479993}
+  laserController: {fileID: 4559461167505449705}
+  maxRange: 30
+  cooldownSeconds: 1.5
   joint: {fileID: 2216583228167139357}
 --- !u!114 &3058009754061574453
 MonoBehaviour:
