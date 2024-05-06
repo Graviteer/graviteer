@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1588685914636327874}
   - component: {fileID: 7391739509467394681}
   - component: {fileID: 4708028046170233843}
+  - component: {fileID: 2216583228167139357}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -81,7 +82,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 40
+  m_SortingOrder: 50
   m_Sprite: {fileID: 1409362538, guid: 69dba8cbb7ffcff4dae0c31ca3c5c1f7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -229,6 +230,26 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!232 &2216583228167139357
+DistanceJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 832272948228498182}
+  m_Enabled: 0
+  serializedVersion: 4
+  m_EnableCollision: 1
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_BreakAction: 3
+  m_AutoConfigureConnectedAnchor: 0
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: 0, y: 0}
+  m_AutoConfigureDistance: 0
+  m_Distance: 52.29349
+  m_MaxDistanceOnly: 0
 --- !u!1 &1576673439137269970
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,6 +629,7 @@ GameObject:
   - component: {fileID: 1452145741079132052}
   - component: {fileID: 8105737782659687603}
   - component: {fileID: 6244751185227878092}
+  - component: {fileID: 3642769683507902755}
   - component: {fileID: 3058009754061574453}
   - component: {fileID: 7032349088717605634}
   m_Layer: 0
@@ -686,6 +708,24 @@ MonoBehaviour:
   player: {fileID: 6949400653982384952}
   laserController: {fileID: 4559461167505449705}
   isMovingObject: 0
+--- !u!114 &3642769683507902755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5930644469430009860}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7c5e6986c41ded4cb36555f18f49a29, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grappleLength: 0
+  grappleLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  rope: {fileID: 4759656300212479993}
+  joint: {fileID: 2216583228167139357}
 --- !u!114 &3058009754061574453
 MonoBehaviour:
   m_ObjectHideFlags: 0
