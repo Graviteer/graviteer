@@ -15,12 +15,13 @@ public class GravityGunController : MonoBehaviour
 {
     public InputReader inputReader;
     public LaserScript laserController;
-    public bool[] isFunctionAvailable = new bool[5];
-    public Color[] laserColors = new Color[5];
+    public bool[] isFunctionAvailable = new bool[4];
+    public Color[] laserColors = new Color[4];
 
     PushPull pushPullFunc;
     GrapplingHook grappleFunc;
     LaunchPlayer launchPlayerFunc;
+    FreezeAbility freezeFunc;
 
     void OnEnable()
     {
@@ -38,6 +39,7 @@ public class GravityGunController : MonoBehaviour
         pushPullFunc = GetComponent<PushPull>();
         grappleFunc = GetComponent<GrapplingHook>();
         launchPlayerFunc = GetComponent<LaunchPlayer>();
+        freezeFunc = GetComponent<FreezeAbility>();
 
         SetGravGunState(0);
     }
@@ -64,6 +66,11 @@ public class GravityGunController : MonoBehaviour
         {
             launchPlayerFunc.enabled = false;
         }
+
+        if (freezeFunc)
+        {
+            freezeFunc.enabled = false;
+        }
     }
 
     void SetGravGunState(int stateInd)
@@ -83,11 +90,10 @@ public class GravityGunController : MonoBehaviour
                 grappleFunc.enabled = true;
                 break;
             case 2:
-                break;
-            case 3:
                 launchPlayerFunc.enabled = true;
                 break;
-            case 4:
+            case 3:
+                freezeFunc.enabled = true;
                 break;
         }
 

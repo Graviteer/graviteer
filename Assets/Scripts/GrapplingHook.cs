@@ -7,6 +7,11 @@ public class GrapplingHook : MonoBehaviour
     [SerializeField] private float grappleLength;
     [SerializeField] private LayerMask grappleLayer;
     [SerializeField] private LineRenderer rope;
+    public LaserScript laserController;
+    public float maxRange = 30.0f;
+    public float cooldownSeconds = 1.5f;
+    private float currentCooldown = 0;
+
 
     private Vector3 grapplePoint;
     public DistanceJoint2D joint;
@@ -15,30 +20,30 @@ public class GrapplingHook : MonoBehaviour
     {
         joint.enabled = false;
         rope.enabled = false;
+        currentCooldown = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit2D hit = Physics2D.Raycast(
-            origin: Camera.main.ScreenToWorldPoint(Input.mousePosition),
-            direction: Vector2.zero,
-            distance: Mathf.Infinity,
-            layerMask: grappleLayer);
+        Vector2 laserStartPos = laserController.transform.position;
+        Vector2 raycastDirection = laserController.laserDirection;
 
-            if (hit.collider != null)
-            {
-                grapplePoint = hit.point;
-                grapplePoint.z = 0;
-                joint.connectedAnchor = grapplePoint;
-                joint.enabled = true;
-                joint.distance = grappleLength;
-                rope.SetPosition(0, grapplePoint);
-                rope.SetPosition(1, transform.position);
-                rope.enabled = true;
-            }
+        RaycastHit2D rayHit = Physics2D.Raycast(laserStartPos, raycastDirection, maxRange, grappleLayer);
+
+        if (rayHit.collider != null && Input.GetMouseButtonDown(0) && currentCooldown <= 0)
+        {
+            currentCooldown = cooldownSeconds;
+            grapplePoint = rayHit.point;
+            grapplePoint.z = 0;
+            joint.connectedAnchor = grapplePoint;
+            joint.enabled = true;
+            joint.distance = grappleLength;
+            rope.SetPosition(0, grapplePoint);
+            rope.SetPosition(1, transform.position);
+            rope.enabled = true;
+        } else {
+            currentCooldown -= Time.deltaTime;
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -47,9 +52,9 @@ public class GrapplingHook : MonoBehaviour
             rope.enabled = false;
         }
 
-        if (rope.enabled == true)
-        {
-            rope.SetPosition(1, transform.position);
-        }
+        // if (rope.enabled == true)
+        // {
+        //     rope.SetPosition(1, transform.position);
+        // }
     }
 }

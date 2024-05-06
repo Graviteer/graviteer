@@ -15,7 +15,6 @@ public class PushPull : MonoBehaviour
 
     int layerMask;
 
-    // Start is called before the first frame update
     void OnEnable()
     {
         int playerLayerMask = 1 << LayerMask.NameToLayer("Player");
@@ -28,10 +27,16 @@ public class PushPull : MonoBehaviour
 
     void OnDisable()
     {
+        if (isMovingObject)
+        {
+            StopFiring();
+        }
+
+        laserController.lineRenderer.enabled = false;
+
         inputReader.FireEndEvent -= StopFiring;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         if (!isMovingObject)
@@ -82,7 +87,7 @@ public class PushPull : MonoBehaviour
             Vector2 raycastDirection = laserController.laserDirection;
 
             RaycastHit2D rayHit = Physics2D.Raycast(laserStartPos, raycastDirection, maxRange, layerMask);
-            Debug.DrawLine(laserStartPos, laserStartPos + (raycastDirection * maxRange), Color.white, 10.0f);
+            Debug.DrawLine(laserStartPos, laserStartPos + (raycastDirection * maxRange), Color.green, 10.0f);
             if (rayHit.transform != null && rayHit.transform.GetComponent<PhysicsController>() != null)
             {
                 GameObject hitObject = rayHit.transform.gameObject;

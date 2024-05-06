@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-public class World1LevelMenu : MonoBehaviour
+public class loadLvl9 : MonoBehaviour
 {
     // Start is called before the first frame update
-    public void Level1()
+    public void Level9()
     {
-        SceneManager.LoadScene(1);
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene(9);
     }
 
 }
