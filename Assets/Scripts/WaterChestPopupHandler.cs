@@ -34,12 +34,13 @@ public class WaterChestPopupTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.name == "Player")
         {
-            if (!hasOpened)
-            {
-                popupText.SetActive(true);
-            }
+            Debug.Log("Enter");
+            //if (!hasOpened)
+            //{
+              //  popupText.SetActive(true);
+            //}
         }
     }
 
