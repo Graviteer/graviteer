@@ -20,7 +20,7 @@ public class LaunchPlayer : MonoBehaviour
 
     void OnDisable()
     {
-        inputReader.FireEvent += Launch;
+        inputReader.FireEvent -= Launch;
     }
 
     void Start()
