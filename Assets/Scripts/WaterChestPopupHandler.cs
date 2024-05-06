@@ -36,11 +36,10 @@ public class WaterChestPopupTrigger : MonoBehaviour
     {
         if (other.gameObject.name == "Player")
         {
-            Debug.Log("Enter");
-            //if (!hasOpened)
-            //{
-              //  popupText.SetActive(true);
-            //}
+            if (!hasOpened)
+            {
+                popupText.SetActive(true);
+            }
         }
     }
 
